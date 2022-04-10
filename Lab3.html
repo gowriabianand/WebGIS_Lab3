@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html, charset=utf-8">
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="docs/images/favicon.ico"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+    <style>
+        /* star applies style to every element */
+        /*
+        * {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+        */
+
+        body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background-attachment: fixed;
+            background-size: 100% auto;
+        }
+
+        .blended_grid {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            margin: 0px auto 0 auto;
+        }
+
+        .pageHeader {
+            background-color: bisque;
+            float: left;
+            clear: none;
+            height: 100px;
+            width: 100%;
+        }
+
+        .pageLeftMenu {
+            background-color: mediumpurple;
+            float: left;
+            clear: none;
+            height: 600px;
+            width: 15%;
+        }
+
+        .pageContent {
+            background-color: gray;
+            float: left;
+            clear: none;
+            height: 600px;
+            width: 70%;
+        }
+
+        .pageRightMenu {
+            background-color: mediumpurple;
+            float: right;
+            clear: none;
+            overflow: auto;
+            height: 600px;
+            width: 15%;
+        }
+
+        .pageFooter {
+            background-color: bisque;
+            float: left;
+            clear: none;
+            height: 100px;
+            width: 100%;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <title> Resizable DIVs Example</title>
+    <meta name="description" content="Words to describe my web page">
+
+    <script>
+        $(document).ready(function() {
+            let midHeight = $(document).height() - $(".pageHeader").height() - $(".pageFooter").height();
+            $(".pageContent").height(midHeight);
+            $(".pageLeftMenu").height(midHeight);
+            $(".pageRightMenu").height(midHeight);
+        })
+
+        $(function () {
+            $(".pageLeftMenu").resizable({
+                animate: false,
+                handles: "e",
+                resize: function (event, ui) {
+                    let rightWidth = $(".pageRightMenu").outerWidth(true);
+                    console.log(ui.size.width);
+                    let midWidth = $(document).width() - $(".pageLeftMenu").outerWidth(true) - rightWidth;
+                    $(".pageContent").innerWidth(midWidth);
+                    $(".pageRightMenu").width(rightWidth);
+                }
+            });
+
+            //$(".pageRightMenu").resizable({	animate: false,	handles: "w"});
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="blended grid">
+        <div class="pageHeader">Header</div>
+        <div class="pageLeftMenu">Left</div>
+        <div class="pageContent">
+            <div id = "map"></div>
+        </div>
+        <div class="pageRightMenu">Right</div>
+        <div class="pageFooter">Footer</div>
+    </div>
+
+    <script>
+        
+        var map = L.map('map').setView([39.74739, -97], 5);
+
+        var baseLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 12,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox/light-v9',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(map);
+
+        function onEachFeature(feature, layer) {
+            var popupContent = "<p>Feature Type: " + feature.geometry.type +
+                "</br> ID: " + feature.properties.GEO_ID +
+                "</br> Name: " + feature.properties.NAME + "</p>";
+
+            if (feature.properties && feature.properties.popupContent) {
+                popupContent += feature.properties.popupContent;
+            }
+
+            layer.bindPopup(popupContent);
+
+            layer.on({
+                mouseover: function (e) { e.target.setStyle({ fillColor: "#994400" }) },
+                mouseout: (e) => USstatesLayer.resetStyle(e.target)
+            })
+        }
+
+        var USstatesLayer = L.geoJSON(null, {
+            style: function (feature) {
+                return { color: "#000", fill: "#ccc" };
+            },
+            onEachFeature: onEachFeature
+
+        }).addTo(map);;
+
+        $.getJSON("./gz_2010_us_040_00_5m.json", function (data) {
+
+            console.log(data);
+            console.log(data.features.length);
+
+            // Do NOT create the GeoJSON layer here.
+            // Create it outside and then fill the data
+            USstatesLayer.addData(data);
+        });
+
+        function highightState(stName, gjL) {
+            gjL.eachLayer(function (layer) {
+                  //layer.bindPopup('Hello');
+                  if(layer.feature.properties.NAME == stName) {
+                      layer.setStyle({fillColor: "#222"});
+                  }
+             });
+        }
+
+        var USstatesLayerB = L.geoJSON(null, {
+            onEachFeature: (f, l) => {
+                l.on({
+                    mouseover: function (e) { e.target.setStyle({ fillColor: "#111", weight: 2 }) },
+                    mouseout: (e) => USstatesLayerB.resetStyle(e.target)
+                });
+            }
+        }
+        );
+        //.addTo(map); // if the layer is not added to the map, it will not be open in the begining.
+
+        fetch('./gz_2010_us_040_00_5m.json')
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                var maxVal = -Infinity, minVal = Infinity;
+
+                data.features.forEach((f, i) => {
+                    if (f.properties.NAME != 'Alaska' && f.properties.NAME != 'Hawaii') {
+                        maxVal = Math.max(maxVal, f.properties.CENSUSAREA);
+                        minVal = Math.min(minVal, f.properties.CENSUSAREA);
+                    }
+                });
+
+                var valRange = maxVal - minVal;
+
+                USstatesLayerB.options.style = (f) => {
+                    return {
+                        fillColor: d3.interpolateOranges((f.properties.CENSUSAREA - minVal) / valRange),
+                        color: "#fff",
+                        weight: 1,
+                        fillOpacity: .8
+                    }
+                };
+
+                USstatesLayerB.addData(data);
+
+
+            });
+
+        var baseMaps = {
+            "Mapbox": baseLayer
+        };
+
+        var overlayMaps = {
+            "States A": USstatesLayer,
+            "States B": USstatesLayerB
+        };
+
+        var lC = L.control.layers(baseMaps, overlayMaps, { collapsed: false, hideSingleBase: true }).addTo(map).expand();
+
+        var lcDIVElem = lC.getContainer();
+        document.addEventListener("keydown", (e) => {
+            if (e.key === 'l' | e.key === 'L') {
+                if (lcDIVElem.style.display == "") {
+                    lcDIVElem.style.display = "none";
+                } else {
+                    lcDIVElem.style.display = "";
+                }
+            }
+        });
+</script>
+</body>
+
+</html>

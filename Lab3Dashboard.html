@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html, charset=utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+    <style>
+        /* star applies style to every element */
+        /*
+        * {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+        */
+
+        body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background-attachment: fixed;
+            background-size: 100% auto;
+        }
+
+        .blended_grid {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            margin: 0px auto 0 auto;
+        }
+
+        .pageHeader {
+            background-color: bisque;
+            float: left;
+            clear: none;
+            height: 50px;
+            width: 100%;
+        }
+
+        .pageContent {
+            background-color: gray;
+            float: left;
+            clear: none;
+            height: 600px;
+            width: 70%;
+        }
+
+        .pageRightMenu {
+            background-color: mediumpurple;
+            float: right;
+            clear: none;
+            overflow: auto;
+            height: 700px;
+            width: 30%;
+        }
+
+        .pageFooter {
+            background-color: bisque;
+            float: left;
+            clear: none;
+            height: 50px;
+            width: 100%;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <title> Resizable DIVs Example</title>
+    <meta name="description" content="Words to describe my web page">
+
+    <script>
+        $(document).ready(function () {
+            let midHeight = $(document).height() - $(".pageHeader").height() - $(".pageFooter").height();
+            $(".pageContent").height(midHeight);
+            $(".pageLeftMenu").height(midHeight);
+            $(".pageRightMenu").height(midHeight);
+        })
+
+        $(function () {
+            $(".pageLeftMenu").resizable({
+                animate: false,
+                handles: "e",
+                resize: function (event, ui) {
+                    let rightWidth = $(".pageRightMenu").outerWidth(true);
+                    console.log(ui.size.width);
+                    let midWidth = $(document).width() - $(".pageLeftMenu").outerWidth(true) - rightWidth;
+                    $(".pageContent").innerWidth(midWidth);
+                    $(".pageRightMenu").width(rightWidth);
+                }
+            });
+
+            //$(".pageRightMenu").resizable({	animate: false,	handles: "w"});
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="blended grid">
+        <div class="pageHeader">Header</div>
+        <div class="pageContent">
+            <div class="embed-container"><small><a
+                href="//cunycis.maps.arcgis.com/apps/Embed/index.html?webmap=273b723b17254aef80f9b999a6a6e057&extent=-74.5145,40.5298,-73.5003,40.9601&home=true&zoom=true&scale=true&details=true&legend=true&active_panel=details&basemap_gallery=true&disable_scroll=false&theme=dark"
+                style="color:#0000FF;text-align:left" target="_blank">View larger map</a></small><br><iframe width="500"
+            height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="Lab1"
+                    title="Lab1" src="https://www.arcgis.com/apps/dashboards/30bbb622bf784b01a0dbc5be27e60167"></iframe>
+
+            </div>
+        </div>
+        <div class="pageRightMenu">Right</div>
+        <div class="pageFooter">Footer</div>
+    </div>
+
+    <script>
+    </script>
+</body>
+
+<style>
+    .embed-container {
+        position: relative;
+        padding-bottom: 80%;
+        height: 0;
+        max-width: 100%;
+    }
+
+    .embed-container iframe,
+    .embed-container object,
+    .embed-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    small {
+        position: absolute;
+        z-index: 40;
+        bottom: 0;
+        margin-bottom: -15px;
+    }
+</style>
+
+<style>
+    .embed-container {
+        position: relative;
+        padding-bottom: 60%;
+        height: 0;
+        max-width: 100%;
+    }
+
+    .embed-container iframe,
+    .embed-container object,
+    .embed-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    small {
+        position: absolute;
+        z-index: 40;
+        bottom: 0;
+        margin-bottom: -15px;
+    }
+</style>
+<!-- <div class="embed-container"><small><a
+            href="//cunycis.maps.arcgis.com/apps/Embed/index.html?webmap=273b723b17254aef80f9b999a6a6e057&extent=-74.5145,40.5298,-73.5003,40.9601&home=true&zoom=true&scale=true&details=true&legend=true&active_panel=details&basemap_gallery=true&disable_scroll=false&theme=dark"
+            style="color:#0000FF;text-align:left" target="_blank">View larger map</a></small><br><iframe width="500"
+        height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="Lab1"
+        src="//cunycis.maps.arcgis.com/apps/Embed/index.html?webmap=273b723b17254aef80f9b999a6a6e057&extent=-74.5145,40.5298,-73.5003,40.9601&home=true&zoom=true&previewImage=false&scale=true&details=true&legend=true&active_panel=details&basemap_gallery=true&disable_scroll=false&theme=dark"></iframe>
+</div> -->
