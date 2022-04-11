@@ -3,6 +3,25 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html, charset=utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
     <style>
         /* star applies style to every element */
         /*
@@ -72,14 +91,23 @@
         }
     </style>
 
-    <title> ArcGIS Dashboard in Website </title>
+    <title> ArcGIS Dashboard Example in Webpage</title>
     <meta name="description" content="Words to describe my web page">
 
+    <script>
+        $(document).ready(function () {
+            let midHeight = $(document).height() - $(".pageHeader").height() - $(".pageFooter").height();
+            $(".pageContent").height(midHeight);
+            $(".pageLeftMenu").height(midHeight);
+            $(".pageRightMenu").height(midHeight);
+        });
+
+    </script>
 </head>
 
 <body>
     <div class="blended grid">
-        <div class="pageHeader">Header</div>
+        <div class="pageHeader">Header for details about researcher and institution.</div>
         <div class="pageContent">
             <div class="embed-container"><small><a
                 href="//cunycis.maps.arcgis.com/apps/Embed/index.html?webmap=273b723b17254aef80f9b999a6a6e057&extent=-74.5145,40.5298,-73.5003,40.9601&home=true&zoom=true&scale=true&details=true&legend=true&active_panel=details&basemap_gallery=true&disable_scroll=false&theme=dark"
@@ -90,7 +118,7 @@
             </div>
         </div>
         <div class="pageRightMenu">Right Menu to explain in more detail about the dashboard.</div>
-        <div class="pageFooter">Footer</div>
+        <div class="pageFooter">Footer for details about references.</div>
     </div>
 
     <script>
@@ -148,9 +176,3 @@
         margin-bottom: -15px;
     }
 </style>
-<!-- <div class="embed-container"><small><a
-            href="//cunycis.maps.arcgis.com/apps/Embed/index.html?webmap=273b723b17254aef80f9b999a6a6e057&extent=-74.5145,40.5298,-73.5003,40.9601&home=true&zoom=true&scale=true&details=true&legend=true&active_panel=details&basemap_gallery=true&disable_scroll=false&theme=dark"
-            style="color:#0000FF;text-align:left" target="_blank">View larger map</a></small><br><iframe width="500"
-        height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" title="Lab1"
-        src="//cunycis.maps.arcgis.com/apps/Embed/index.html?webmap=273b723b17254aef80f9b999a6a6e057&extent=-74.5145,40.5298,-73.5003,40.9601&home=true&zoom=true&previewImage=false&scale=true&details=true&legend=true&active_panel=details&basemap_gallery=true&disable_scroll=false&theme=dark"></iframe>
-</div> -->
