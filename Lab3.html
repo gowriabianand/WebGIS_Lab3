@@ -131,10 +131,21 @@
                     $(".pageRightMenu").width(rightWidth);
                 }
             });
-
-            //$(".pageRightMenu").resizable({	animate: false,	handles: "w"});
         });
 
+        $(function () {
+            $(".pageRightMenu").resizable({
+                animate: false,
+                handles: "w",
+                resize: function (event, ui) {
+                    let leftWidth = $(".pageLeftMenu").outerWidth(true);
+                    console.log(ui.size.width);
+                    let midWidth = $(document).width() - $(".pageRightMenu").outerWidth(true) - leftWidth;
+                    $(".pageContent").innerWidth(midWidth);
+                    $(".pageLeftMenu").width(leftWidth);
+                }
+            });
+        });
     </script>
 </head>
 
