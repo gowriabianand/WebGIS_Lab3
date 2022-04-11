@@ -3,25 +3,6 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html, charset=utf-8">
-    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-        crossorigin=""></script>
-
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
-
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-
     <style>
         /* star applies style to every element */
         /*
@@ -91,34 +72,9 @@
         }
     </style>
 
-    <title> Resizable DIVs Example</title>
+    <title> ArcGIS Dashboard in Website </title>
     <meta name="description" content="Words to describe my web page">
 
-    <script>
-        $(document).ready(function () {
-            let midHeight = $(document).height() - $(".pageHeader").height() - $(".pageFooter").height();
-            $(".pageContent").height(midHeight);
-            $(".pageLeftMenu").height(midHeight);
-            $(".pageRightMenu").height(midHeight);
-        })
-
-        $(function () {
-            $(".pageLeftMenu").resizable({
-                animate: false,
-                handles: "e",
-                resize: function (event, ui) {
-                    let rightWidth = $(".pageRightMenu").outerWidth(true);
-                    console.log(ui.size.width);
-                    let midWidth = $(document).width() - $(".pageLeftMenu").outerWidth(true) - rightWidth;
-                    $(".pageContent").innerWidth(midWidth);
-                    $(".pageRightMenu").width(rightWidth);
-                }
-            });
-
-            //$(".pageRightMenu").resizable({	animate: false,	handles: "w"});
-        });
-
-    </script>
 </head>
 
 <body>
@@ -133,7 +89,7 @@
 
             </div>
         </div>
-        <div class="pageRightMenu">Right</div>
+        <div class="pageRightMenu">Right Menu to explain in more detail about the dashboard.</div>
         <div class="pageFooter">Footer</div>
     </div>
 
